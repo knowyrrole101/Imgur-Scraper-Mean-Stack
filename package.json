@@ -25,6 +25,7 @@
     "gravatar": "^1.5.2",
     "jsonwebtoken": "^7.1.7",
     "lodash": "^4.14.1",
+    "lodash-compat": "^3.10.2",
     "method-override": "^2.3.6",
     "mongoose": "^4.5.7",
     "morgan": "^1.7.0",
@@ -40,7 +41,7 @@
     "serve-favicon": "^2.3.0"
   },
   "engines": {
-   "node": ">=0.10.0"
- },
- "private": true
+    "node": ">=0.10.0"
+  },
+  "private": true
 }
