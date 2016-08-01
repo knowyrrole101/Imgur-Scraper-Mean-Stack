@@ -5,9 +5,12 @@ exports.setup = function (User, config) {
   passport.use(new FacebookStrategy({
       clientID: config.facebook.clientID,
       clientSecret: config.facebook.clientSecret,
-      callbackURL: config.facebook.callbackURL
+      callbackURL: config.facebook.callbackURL,
+      profileFields : ["id", "name", "gender", "age_range", "displayName", "email", "photos"]
     },
+
     function(accessToken, refreshToken, profile, done) {
+      console.log(profile);
       User.findOne({
         'facebook.id': profile.id
       },

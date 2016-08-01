@@ -2,6 +2,7 @@
 
 var path = require('path');
 var _ = require('lodash');
+var settings = require('./local.env');
 
 function requiredProcessEnv(name) {
   if(!process.env[name]) {
@@ -33,14 +34,16 @@ var all = {
     region: process.env.region
   },
   facebook: {
-    clientID: process.env.FACEBOOK_ID || 'id',
-    clientSecret: process.env.FACEBOOK_SECRET || 'secret',
-    callbackURL: (process.env.DOMAIN||"")+'auth/facebook/callback'
+    clientID: settings.FACEBOOK_ID || 'id',
+    clientSecret: settings.FACEBOOK_SECRET || 'secret',
+    callbackURL: 'auth/facebook/callback'
+    // callbackURL: (process.env.DOMAIN||"")+'auth/facebook/callback'
   },
   twitter: {
-    clientID: process.env.TWITTER_ID||'id',
-    clientSecret: process.env.TWITTER_SECRET||'secret',
-    callbackURL: (process.env.DOMAIN||"") +'/auth/twitter/callback'
+    clientID: settings.TWITTER_ID||'id',
+    clientSecret: settings.TWITTER_SECRET||'secret',
+    callbackURL: 'http://localhost:3000/auth/twitter/callback'
+    //callbackURL: (process.env.DOMAIN||"") +'/auth/twitter/callback'
   }
 };
 
