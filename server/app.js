@@ -5,6 +5,7 @@ var express = require('express');
 var mongoose = require('mongoose');
 var config = require('./config/environment');
 
+//default mongo promise is deprecated.
 mongoose.Promise = global.Promise;
 mongoose.connect(config.mongo.uri, config.mongo.options);
 
