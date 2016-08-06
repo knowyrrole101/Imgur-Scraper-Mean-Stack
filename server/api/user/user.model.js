@@ -11,6 +11,7 @@ var UserSchema = new Schema({
     type: String,
     lowercase: true
   },
+  gravatar: String,
   role: {
     type: String,
     default: 'user'
@@ -19,6 +20,7 @@ var UserSchema = new Schema({
   provider: String,
   salt: String,
   facebook: {},
+  google: {},
   twitter: {},
   github: {}
 });
