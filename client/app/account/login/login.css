@@ -1,3 +1,6 @@
+.login-content {
+  margin-top: 100px;
+}
 .btn-facebook {
   color: #fff;
   background-color: #3B5998;
@@ -57,11 +60,11 @@ $btnTextAlt:                        #000;
   color: #083858;
 }
 .panel-login {
-  //border-radius: 8px; 
+  //border-radius: 8px;
 }
 .panelintro {
-  border: 2px solid #083858; 
-  border-radius: 8px; 
+  border: 2px solid #083858;
+  border-radius: 8px;
 }
 .panel, .panel-heading {
   border-bottom: 0;
