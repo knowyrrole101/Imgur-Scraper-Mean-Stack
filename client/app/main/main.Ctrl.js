@@ -53,5 +53,29 @@
       })
     });
 
+    $scope.addScrapePost = function() {
+      var look = {
+        description: $scope.look.description,
+        title: $scope.look.title,
+        image: $scope.look.imgThumb,
+        link: $scope.look.link,
+        email: $scope.user.email,
+        name: $scope.user.name,
+        creator: $scope.user._id
+      }
+      $http.post('/api/look/scrapeUpload', look)
+        .then(function(data) {
+          $scope.showScrapeDetails = false;
+          $scope.gotScrapeResults = false;
+          $scope.look.link = "";
+          $scope.look.title = "";
+          console.log(data);
+        })
+        .catch(function () {
+          console.log("Failed to post");
+          $scope.showScrapeDetails = false;
+        });
+    }
+
   }
 })();

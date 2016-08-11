@@ -16,10 +16,10 @@ exports.list = function(url, callback) {
       var $url = url;
       var $img = $('.post-image img').attr('src');
       var $desc = $('.post-title-container h1').text();
-      console.log($img + 'pin url');
+      console.log($img + ' pin url');
 
       var pin = {
-        img: $img,
+        img:'http:' + $img,
         url: $url,
         desc: $desc
       };
