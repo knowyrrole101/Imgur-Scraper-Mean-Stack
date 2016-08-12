@@ -1,5 +1,6 @@
 'use strict';
 
+var fs= require('fs');
 var request = require('request');
 var cheerio = require('cheerio');
 
@@ -16,15 +17,16 @@ exports.list = function(url, callback) {
       var $url = url;
       var $img = $('.post-image img').attr('src');
       var $desc = $('.post-title-container h1').text();
-      console.log($img + ' pin url');
+      console.log($img + ' image url');
 
-      var pin = {
-        img:'http:' + $img,
+      var image = {
+        img:"http:" + $img,
         url: $url,
         desc: $desc
       };
       //callback data
-      callback(pin);
+      console.log('scraped: ', image);
+      callback(image);
     }
   })
 }

@@ -1,5 +1,9 @@
 'use strict';
 
+var fs = require('fs');
+var request = require('request');
+var cheerio = require('cheerio');
+
 var scrapers = {};
 
 scrapers['pinterest'] = require('./scrapers/pinterest.js');
@@ -20,8 +24,11 @@ exports.scrape = function (req, res) {
     console.log('cannot locate scraper!');
   }
 
-  scrapers[scraperToUse].list(url, function(data) {
-    console.log('Data from scraper:', data);
-    res.json(data);
-  });
+  if(url){
+    scrapers[scraperToUse].list(url, function(data) {
+      console.log('Data from scraper:', data);
+      res.json(data);
+    });
+  }
+
 }
