@@ -5,9 +5,9 @@
     .module('app')
     .controller('MainCtrl', MainCtrl);
 
-  MainCtrl.$inject = ['$scope', '$state', 'Auth', '$modal', '$http'];
+  MainCtrl.$inject = ['$scope', '$state', 'Auth', '$modal', 'looksAPI','$http', 'scrapeAPI', '$alert'];
 
-  function MainCtrl($scope, $state, Auth, $modal, $http) {
+  function MainCtrl($scope, $state, Auth, $modal, looksAPI, $http, scrapeAPI) {
     $scope.user = Auth.getCurrentUser();
     $scope.look = {};
     $scope.scrapePostForm = true;
@@ -27,34 +27,34 @@
     };
 
     $scope.$watch('look.link', function(newVal, oldVal) {
-      if(newVal.length > 5) {
-        $scope.loading = true;
-        $http.post('/api/links/scrape', {
-          url: $scope.look.link
-        })
-        .then(function (data) {
-          console.log(data);
-          $scope.showScrapeDetails = true;
-          $scope.gotScrapeResults = true;
-          $scope.uploadLookTitle = false;
-          $scope.look.imgThumb = data.data.img;
-          $scope.look.description = data.data.desc;
-        })
-        .catch(function (data) {
-          console.log('failed to return from scrape');
-          $scope.loading = false;
-          $scope.look.link = '';
-          $scope.gotScrapeResults = false;
-        })
-        .finally(function () {
-          $scope.loading = false;
-          $scope.uploadLookForm = false;
-        })
-      }
+      if(newVal!==oldVal){
+        if(newVal.length > 5) {
+          $scope.loading = true;
+          var link = {
+            url: $scope.look.link
+          }
+          scrapeAPI.getScrapeDetails(link)
+          .then(function (data) {
+            console.log(data);
+            $scope.showScrapeDetails = true;
+            $scope.gotScrapeResults = true;
+            $scope.uploadLookTitle = false;
+            $scope.look.imgThumb = data.data.img;
+            $scope.look.description = data.data.desc;
+          })
+          .catch(function (data) {
+            console.log('failed to return from scrape');
+            $scope.loading = false;
+            $scope.look.link = '';
+            $scope.gotScrapeResults = false;
+          })
+          .finally(function () {
+            $scope.loading = false;
+            $scope.uploadLookForm = false;
+          })
+        };
+      };
     });
-
-
-
     $scope.addScrapePost = function() {
       var look = {
         description: $scope.look.description,
@@ -64,8 +64,8 @@
         email: $scope.user.email,
         name: $scope.user.name,
         creator: $scope.user._id
-      }
-      $http.post('/api/look/scrapeUpload', look)
+      };
+      looksAPI.createScrapeLook(look)
         .then(function(data) {
           $scope.showScrapeDetails = false;
           $scope.gotScrapeResults = false;
@@ -77,7 +77,6 @@
           console.log("Failed to post");
           $scope.showScrapeDetails = false;
         });
-    }
-
-  }
+    };
+  };
 })();
