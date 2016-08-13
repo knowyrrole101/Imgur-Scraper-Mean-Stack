@@ -5,6 +5,25 @@ var Look = require('./look.model');
 var path = require('path');
 var utils = require('../../utils/utils.js');
 
+exports.allLooks = function(req, res) {
+  Look.find({})
+    //if chaining must execute
+    .sort({
+      createTime: -1
+    })
+    .exec(function(err,looks){
+      if(err){
+        return handleError(res,err);
+      }
+      if(!looks){
+        return res.send(404);
+      }
+      console.log(looks);
+      return res.status(200)
+        .json(looks);
+    });
+};
+
 exports.scrapeUpload = function(req, res) {
   var random = utils.randomizer(32, '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ');
 
@@ -34,3 +53,7 @@ exports.scrapeUpload = function(req, res) {
     }
   );
 };
+
+function handleError(res,err){
+  return res.send(500, err);
+}

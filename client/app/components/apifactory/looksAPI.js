@@ -9,12 +9,20 @@
 
     function looksAPI($http) {
       return {
-        createScrapeLook: createScrapeLook
+        createScrapeLook: createScrapeLook,
+        getAllLooks: getAllLooks
       }
 
       function createScrapeLook(look) {
         return $http.post('/api/look/scrapeUpload', look)
       }
+
+      function getAllLooks() {
+        return $http.get('/api/look/getAllLooks', {
+          cache: true
+        });
+      }
+
     }
 
 
