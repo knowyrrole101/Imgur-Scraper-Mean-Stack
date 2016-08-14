@@ -8,6 +8,7 @@ exports.setup = function (User, config) {
     callbackURL: config.twitter.callbackURL
   },
   function(token, tokenSecret, profile, done) {
+    console.log(profile);
     User.findOne({
       'twitter.id_str': profile.id
     }, function(err, user) {
@@ -18,6 +19,7 @@ exports.setup = function (User, config) {
         user = new User({
           name: profile.displayName,
           username: profile.username,
+          gravatar: profile.photos[0].value,
           role: 'user',
           provider: 'twitter',
           twitter: profile._json

@@ -22,6 +22,7 @@ exports.setup = function (User, config) {
           user = new User({
             name: profile.displayName,
             email: profile.emails[0].value,
+            gravatar: profile.picture.data.url,
             role: 'user',
             username: profile.username,
             provider: 'facebook',

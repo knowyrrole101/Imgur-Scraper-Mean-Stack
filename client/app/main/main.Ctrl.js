@@ -84,6 +84,7 @@
       };
     });
     $scope.addScrapePost = function() {
+      console.log($scope.user);
       var look = {
         description: $scope.look.description,
         title: $scope.look.title,
