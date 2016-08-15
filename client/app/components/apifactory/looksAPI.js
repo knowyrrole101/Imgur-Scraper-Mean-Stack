@@ -10,7 +10,10 @@
     function looksAPI($http) {
       return {
         createScrapeLook: createScrapeLook,
-        getAllLooks: getAllLooks
+        getAllLooks: getAllLooks,
+        findOneLook: findOneLook,
+        getUpdateLook: getUpdateLook,
+        updateLook: updateLook
       }
 
       function createScrapeLook(look) {
@@ -22,6 +25,29 @@
           cache: true
         });
       }
+
+      function getUserLooks(id) {
+        return $http.get('/api/look/getUserLooks/?email=' + id, {
+          cache: true
+        });
+      }
+
+      function findOneLook(look) {
+        return $http.get('/api/look/' + look);
+      }
+
+      function getUpdateLook(look) {
+        return $http.get('/api/look/' + look._id);
+      }
+
+      function updateLook(look) {
+        return $http.put('/api/look/' + look._id, look);
+      }
+
+      function deleteLook(look) {
+        return $http.delete('/api/look/' + look._id);
+      }
+
 
     }
 

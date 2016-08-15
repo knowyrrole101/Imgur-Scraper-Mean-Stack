@@ -29,6 +29,7 @@
     "method-override": "^2.3.6",
     "mongoose": "^4.5.7",
     "morgan": "^1.7.0",
+    "multer": "^0.1.8",
     "nodemailer": "^2.5.0",
     "open": "0.0.5",
     "passport": "^0.3.2",

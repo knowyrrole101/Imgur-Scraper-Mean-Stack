@@ -72,7 +72,7 @@
 
     <form name="myForm"
               enctype="multipart/form-data"
-              ng-show="uploadLookForm">
+              ng-show="uploadLookForm" class='centered-form'>
       <div class="row row-centered">
         <div class="col-centered">
           <div class="well well-lg">
@@ -120,9 +120,9 @@
                             ng-click="uploadPic(picFile)">Submit</button>
 
                 <div class="col-md-6" id="alertContainer"></div>
-                <img ngf-src="picFile"
+                <!-- <img ngf-src="picFile"
                         class="img-thumbnail img-responsive"
-                        ng-show="picPreview">
+                        ng-show="picPreview"> -->
 
                 <span ng-show="picFile.result">Upload Successful</span>
                 <span class="err" ng-show="errorMsg">{{errorMsg}}</span>

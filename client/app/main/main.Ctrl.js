@@ -5,18 +5,21 @@
     .module('app')
     .controller('MainCtrl', MainCtrl);
 
-  MainCtrl.$inject = ['$scope', '$state', 'Auth', '$modal', 'looksAPI','$http', 'scrapeAPI', '$alert'];
+  MainCtrl.$inject = ['$scope', '$state', 'Auth', '$modal', 'looksAPI','$http', 'scrapeAPI', '$alert', 'Upload'];
 
-  function MainCtrl($scope, $state, Auth, $modal, looksAPI, $http, scrapeAPI, $alert) {
+  function MainCtrl($scope, $state, Auth, $modal, looksAPI, $http, scrapeAPI, $alert, Upload) {
     $scope.user = Auth.getCurrentUser();
+
     $scope.look = {};
     $scope.looks =[];
     $scope.scrapePostForm = true;
-    $scope.uploadLookTitle = true;
-    $scope.uploadLookForm = false;
     $scope.showScrapeDetails = false;
     $scope.gotScrapeResults = false;
     $scope.loading = false;
+
+    $scope.picPreview = true;
+    $scope.uploadLookTitle = true;
+    $scope.uploadLookForm = false;
 
     var alertSuccess = $alert({
       title: "Success!",
@@ -44,6 +47,12 @@
     $scope.showModal = function() {
       myModal.$promise.then(myModal.show);
     };
+
+    $scope.showUploadForm = function() {
+      $scope.uploadLookForm = true;
+      $scope.scrapePostForm = false;
+      $scope.uploadLookTitle = false;
+    }
 
     looksAPI.getAllLooks()
       .then(function(data){
@@ -92,7 +101,7 @@
         link: $scope.look.link,
         email: $scope.user.email,
         name: $scope.user.name,
-        creator: $scope.user._id
+        _creator: $scope.user._id
       };
       looksAPI.createScrapeLook(look)
         .then(function(data) {
@@ -110,5 +119,37 @@
           $scope.showScrapeDetails = false;
         });
     };
-  };
+
+    $scope.uploadPic = function(file) {
+      Upload.upload({
+        url: 'api/look/upload',
+        headers: {
+          'Content-Type': 'multipart/form-data'
+        },
+        data: {
+          file: file,
+          title: $scope.look.title,
+          description: $scope.look.description,
+          email: $scope.user.email,
+          name: $scope.user.name,
+          linkURL: $scope.look._id,
+          _creator: $scope.user._id
+        }
+      }).then(function(resp) {
+        console.log('Success ' + resp.config.data.file.name + 'uploaded. Response: ' + resp.data);
+        $scope.looks.splice(0, 0, resp.data);
+        $scope.look.title = '';
+        $scope.look.description = '';
+        $scope.picFile = '';
+        $scope.picPreview = false;
+        alertSuccess.show();
+      }, function(resp) {
+        alertFail.show();
+      }, function(evt) {
+        var progressPercentage = parseInt(100.0 * evt.loaded / evt.total);
+        console.log('progress: ' + progressPercentage + '% ' + evt.config.data.file.name);
+
+      });
+    }
+  }
 })();
